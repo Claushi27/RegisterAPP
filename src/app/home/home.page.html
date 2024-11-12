@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>RegistrAPP</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/login']">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        <span *ngIf="!userName">Iniciar Sesión</span>
+        <span *ngIf="userName">Perfil</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h1>¡Bienvenido {{ userName }}!</h1>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Asignaturas Disponibles:</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let subject of subjects">
+                <ion-label>
+                  <h2>{{ subject.title }}</h2>
+                  <p *ngIf="subject.registered">
+                    Asistencia registrada: {{ subject.registered | date: 'shortTime' }}
+                  </p>
+                </ion-label>
+                <ion-button
+                  slot="end"
+                  [disabled]="subject.registered"
+                >
+                  Asistencia Registrada
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Botón para escanear el código QR -->
+        <ion-button expand="full" (click)="scan()">Escanear Código QR</ion-button>
+
+        <!-- Mostrar el resultado del escaneo -->
+        <p *ngIf="result">Resultado del escaneo: {{ result }}</p>
+
+        <ion-button expand="full" (click)="handleLogout()">Cerrar sesión</ion-button>
+
+        <!-- Mostrar los datos del clima -->
+        <div *ngIf="weatherData">
+          <h2>Clima en {{ weatherData.name }}</h2>
+          <p>Temperatura: {{ weatherData.main.temp }}°C</p>
+          <p>Humedad: {{ weatherData.main.humidity }}%</p>
+          <p>Descripción: {{ weatherData.weather[0].description }}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar style="height: 70px;">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" size="small" [routerLink]="['/politica']">
+            <ion-icon name="document"></ion-icon>
+            <ion-label style="color: #f7f9f9;">Política</ion-label>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" size="small" [routerLink]="['/settings']">
+            <ion-icon name="settings"></ion-icon>
+            <ion-label style="color: #f8f5f5;">Configuraciones</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>
