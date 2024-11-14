@@ -11,12 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginPage {
   loginForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder, 
-    private authService: AuthService, 
-    private router: Router
-  ) {
-    // Definir el formulario con las validaciones
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
@@ -31,34 +26,23 @@ export class LoginPage {
     });
   }
 
-  // Método para manejar el login (solo guarda datos)
   async onLogin() {
     if (this.loginForm.valid) {
       const { email, username, password } = this.loginForm.value;
-      console.log('Datos recibidos en onLogin:', { email, username, password });  // Agregar log
-  
       try {
-        // Guarda los datos del usuario en Firestore
-        await this.authService.saveUserData(email, username, password);
-        console.log('Datos guardados en Firebase correctamente');  // Agregar log
-  
-        // Guarda los datos del usuario en localStorage
-        localStorage.setItem('userName', username);
-        localStorage.setItem('userEmail', email);
-  
+        await this.authService.login(email, password);
+        localStorage.setItem('userName', username); // Guarda el nombre de usuario
+        localStorage.setItem(username, password); // Guarda la contraseña usando el nombre de usuario como clave
         alert('Inicio de sesión exitoso');
-        
-        // Redirige al home
         this.router.navigate(['/home']);
       } catch (error) {
-        console.error('Error al guardar los datos:', error);
-        alert('Ocurrió un error al guardar los datos del usuario. Inténtalo nuevamente.');
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
       }
     } else {
       alert('Por favor, completa todos los campos requeridos.');
     }
   }
-  
 
   navigateToResetPassword() {
     this.router.navigate(['/reset-password']);

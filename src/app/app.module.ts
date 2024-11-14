@@ -17,6 +17,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,13 +32,13 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig), // Inicialización de Firebase con la configuración
-    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig), // Inicialización de Firebase
     AngularFireAuthModule, // Módulo de autenticación de Firebase
+    AngularFirestoreModule, // Si planeas usar Firestore, este módulo es necesario
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    WeatherService,
+    WeatherService, 
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

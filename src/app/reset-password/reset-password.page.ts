@@ -1,54 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';  // Importa el servicio de autenticación
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
 })
-export class ResetPasswordPage {
+export class ResetPasswordPage implements OnInit {
   resetPasswordForm: FormGroup;
-  passwordResetSuccess: boolean = false;
-  passwordResetError: boolean = false;
-  successMessage: string = '';
-  errorMessage: string = '';
+  storedPassword: string | null = ''; // Variable para mostrar la contraseña recuperada
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.resetPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],  // Añadir email al formulario
+      username: ['', Validators.required]
     });
   }
 
-  // Función para manejar el restablecimiento de la contraseña
+  ngOnInit() {
+    // Lógica para verificar si hay una contraseña almacenada
+    const username = this.resetPasswordForm.value.username;
+    if (username) {
+      this.storedPassword = localStorage.getItem(username);
+    }
+  }
+
   async onResetPassword() {
+    const username = this.resetPasswordForm.value.username;
+    const email = this.resetPasswordForm.value.email;  // Obtener email del formulario
     if (this.resetPasswordForm.valid) {
-      const { email } = this.resetPasswordForm.value;
-
-      try {
-        // Llamamos al servicio de restablecimiento de contraseña
-        await this.authService.resetPassword(email);
-        this.passwordResetSuccess = true;
-        this.passwordResetError = false;
-        this.successMessage = 'Se ha enviado un correo para restablecer tu contraseña.';
-
-        // Redirigir al usuario al login después de un éxito
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000); // Redirigir después de 2 segundos
-      } catch (error) {
-        console.error('Error al enviar correo de restablecimiento:', error);
-        this.passwordResetError = true;
-        this.passwordResetSuccess = false;
-        this.errorMessage = 'No se pudo enviar el correo de restablecimiento. Intenta nuevamente.';
+      // Recupera la contraseña desde localStorage usando el nombre de usuario
+      this.storedPassword = localStorage.getItem(username);
+      if (this.storedPassword) {
+        try {
+          await this.authService.resetPassword(email);  // Usar AuthService para enviar el email de restablecimiento
+          alert(`Tu contraseña es: ${this.storedPassword}. Se ha enviado un correo para restablecer la contraseña.`); 
+        } catch (error) {
+          console.error('Reset password error:', error);
+          alert('Failed to reset password. Please try again.');
+        }
+      } else {
+        alert('No se encontró una contraseña para este usuario.');
       }
-    } else {
-      alert('Por favor, ingresa un correo electrónico válido.');
+      this.router.navigate(['/login']);
     }
   }
 }
