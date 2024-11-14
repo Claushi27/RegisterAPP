@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private router: Router) {}
+
+  navegarDocente() {
+    this.router.navigate(['/home']); 
+    console.log('Hice clic en navegar a docente');
+  }
 }
+
+

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToHome()">
+        <ion-icon name="home"></ion-icon> <!-- Ícono de casa -->
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Cerrar sesión
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="perfil-card">
+    <ion-card-header>
+      <ion-avatar class="profile-picture">
+        <img [src]="profilePicture" alt="Foto de perfil" />
+      </ion-avatar>
+      <ion-card-title>{{ username }}</ion-card-title> <!-- Mostrar el nombre de usuario -->
+      <ion-card-subtitle>{{ email }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Sección para cambiar imagen de perfil -->
+  <ion-button (click)="showImageOptions()" color="primary" expand="block">Cambiar Imagen</ion-button>
+
+  <!-- Opciones de imágenes (solo se muestran si showImageOptionsModal es true) -->
+  <ion-list *ngIf="showImageOptionsModal">
+    <ion-item *ngFor="let image of gameImages" (click)="changeProfilePicture(image)">
+      <ion-thumbnail slot="start">
+        <img [src]="image" />
+      </ion-thumbnail>
+      <ion-label>{{ image }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Formulario del perfil para editar datos -->
+  <form (ngSubmit)="saveProfile()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Nombre de usuario</ion-label>
+        <ion-input [(ngModel)]="username" name="username" placeholder="Ingresa tu nombre" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Correo Electrónico</ion-label>
+        <ion-input [(ngModel)]="email" name="email" type="email" placeholder="correo@example.com" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Teléfono</ion-label>
+        <ion-input [(ngModel)]="phone" name="phone" type="tel" placeholder="Número de teléfono" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Dirección</ion-label>
+        <ion-textarea [(ngModel)]="address" name="address" placeholder="Ingresa tu dirección" required></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" type="submit" color="primary">Guardar Cambios</ion-button> <!-- Botón para guardar -->
+  </form>
+
+  <!-- Botón para cambiar la contraseña -->
+  <ion-button expand="full" color="tertiary" (click)="navigateToResetPassword()">
+    Cambiar Contraseña
+  </ion-button>
+</ion-content>

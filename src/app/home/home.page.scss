@@ -1,0 +1,38 @@
+ion-card {
+    --background: #2e2e2e; /* Fondo de la tarjeta en gris oscuro */
+    color: #e0e0e0; /* Texto en gris claro */
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  
+  ion-card-title {
+    color: #ffffff; /* Título en blanco */
+  }
+  
+  .weather-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .weather-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .weather-info h2 {
+    font-size: 1.8em;
+    color: #ffcc00; /* Color de la temperatura en amarillo suave */
+  }
+  
+  .weather-info p {
+    margin: 0;
+    font-size: 1em;
+    color: #cccccc; /* Texto en gris claro */
+  }
+  
+  /* Fondo del contenido para mantener consistencia */
+  ion-content {
+    --background: #1a1a1a; /* Fondo principal en gris muy oscuro */
+  }
+  
