@@ -1,6 +1,8 @@
+// home.page.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WeatherService } from '../services/weather.service';
+import { Geolocation } from '@capacitor/geolocation';
 import { CapacitorBarcodeScanner, CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 
 @Component({
@@ -24,11 +26,23 @@ export class HomePage implements OnInit {
       { title: 'Clase de Lenguaje', registered: null },
       { title: 'Clase de Historia', registered: null }
     ];
-    this.getWeather('Santiago');
+    this.getLocationAndWeather();
   }
 
-  getWeather(city: string) {
-    this.weatherService.getWeather(city).subscribe(data => {
+  async getLocationAndWeather() {
+    try {
+      const position = await Geolocation.getCurrentPosition();
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      this.getWeather(lat, lon);
+    } catch (error) {
+      console.error('Error al obtener la ubicación:', error);
+      alert('No se pudo obtener la ubicación. Por favor, verifica los permisos de GPS.');
+    }
+  }
+
+  getWeather(lat: number, lon: number) {
+    this.weatherService.getWeather(lat, lon).subscribe(data => {
       this.weatherData = data;
     });
   }
