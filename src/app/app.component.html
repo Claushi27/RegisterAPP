@@ -1,3 +1,32 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <ion-menu side="start" menuId="menuPrincipal" contentId="main">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item>
+        <ion-button (clik)="navegarDocente()">Alumnos</ion-button>
+        </ion-item>
+        <ion-item>
+        <ion-button (clik)="navegarDocente()">Profesores</ion-button>
+        </ion-item>
+        <ion-item>
+        <ion-button (clik)="navegarDocente()">Asistentes de la educación</ion-button>
+        </ion-item>
+        <ion-item>
+        <ion-button (clik)="navegarDocente()">Inspectores</ion-button>
+        </ion-item>
+        <ion-item>
+        <ion-button (clik)="navegarDocente()">Directivos</ion-button>
+        </ion-item>
+      </ion-list> 
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
 </ion-app>
