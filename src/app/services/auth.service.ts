@@ -43,19 +43,17 @@ export class AuthService {
   
   
 
-  // Login with email and password
-  async login(email: string, password: string): Promise<any> {
-    try {
-      const userCredential = await this.afAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-      console.log('Inicio de sesión exitoso', userCredential.user);
-      return userCredential.user; // Devuelve el usuario autenticado
-    } catch (error) {
-      throw error; // Lanza el error si ocurre algún problema durante el inicio de sesión
-    }
+  login(email: string, password: string) {
+    // Sólo simula el login, no hace ninguna verificación real
+    return new Promise((resolve, reject) => {
+      if (email && password.length >= 5 && /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/.test(password)) {
+        resolve({ success: true });
+      } else {
+        reject({ error: 'Credenciales inválidas' });
+      }
+    });
   }
+
 
   // Get the currently authenticated user
   async getUser(): Promise<any> {
