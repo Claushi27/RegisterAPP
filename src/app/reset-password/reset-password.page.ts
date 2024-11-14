@@ -36,10 +36,10 @@ export class ResetPasswordPage implements OnInit {
       if (this.storedPassword) {
         try {
           await this.authService.resetPassword(email);  // Usar AuthService para enviar el email de restablecimiento
-          alert(`Tu contraseña es: ${this.storedPassword}. Se ha enviado un correo para restablecer la contraseña.`); 
+          alert(`Tu contraseña es: ${this.storedPassword}. Se ha enviado un correo para restablecer la contraseña.`);
         } catch (error) {
-          console.error('Reset password error:', error);
-          alert('Failed to reset password. Please try again.');
+          console.error('Error al restablecer la contraseña:', error);
+          alert('Error al restablecer la contraseña. Por favor, inténtalo nuevamente.');
         }
       } else {
         alert('No se encontró una contraseña para este usuario.');
@@ -47,4 +47,4 @@ export class ResetPasswordPage implements OnInit {
       this.router.navigate(['/login']);
     }
   }
-}
+} 

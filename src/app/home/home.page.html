@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>RegistrAPP</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/login']">
+      <ion-button [routerLink]="['/perfil']">
         <ion-icon name="person-circle-outline"></ion-icon>
         <span *ngIf="!userName">Iniciar Sesión</span>
         <span *ngIf="userName">Perfil</span>
@@ -30,14 +30,33 @@
                     Asistencia registrada: {{ subject.registered | date: 'shortTime' }}
                   </p>
                 </ion-label>
-                <ion-button
-                  slot="end"
-                  [disabled]="subject.registered"
-                >
+                <ion-button slot="end" [disabled]="subject.registered">
                   Asistencia Registrada
                 </ion-button>
               </ion-item>
             </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Tarjeta de Clima -->
+        <ion-card *ngIf="weatherData">
+          <ion-card-header>
+            <ion-card-title>Clima en {{ weatherData.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="weather-info">
+              <img
+                [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'"
+                alt="Icono del clima"
+                class="weather-icon"
+              />
+              <div>
+                <h2>{{ weatherData.main.temp }}°C</h2>
+                <p>{{ weatherData.weather[0].description | titlecase }}</p>
+                <p>Humedad: {{ weatherData.main.humidity }}%</p>
+                <p>Viento: {{ weatherData.wind.speed }} m/s</p>
+              </div>
+            </div>
           </ion-card-content>
         </ion-card>
 
@@ -48,14 +67,6 @@
         <p *ngIf="result">Resultado del escaneo: {{ result }}</p>
 
         <ion-button expand="full" (click)="handleLogout()">Cerrar sesión</ion-button>
-
-        <!-- Mostrar los datos del clima -->
-        <div *ngIf="weatherData">
-          <h2>Clima en {{ weatherData.name }}</h2>
-          <p>Temperatura: {{ weatherData.main.temp }}°C</p>
-          <p>Humedad: {{ weatherData.main.humidity }}%</p>
-          <p>Descripción: {{ weatherData.weather[0].description }}</p>
-        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

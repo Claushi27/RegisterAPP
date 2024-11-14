@@ -17,17 +17,26 @@ const routes: Routes = [
     canActivate: [AuthGuard] 
   },
 
+  // Ruta protegida para Perfil (agregado el AuthGuard)
+  { 
+    path: 'perfil', 
+    loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule),
+    canActivate: [AuthGuard] // Protege la ruta de perfil
+  },
+
   // Ruta para el error 404
   { 
     path: '**', 
-    redirectTo: 'e404',
-    pathMatch: 'full'
+    redirectTo: 'e404', 
+    pathMatch: 'full' 
   },
 
+  // Componente de error 404
   {
     path: 'e404',
     loadChildren: () => import('./page/e404/e404.module').then(m => m.E404PageModule)
   }
+
 ];
 
 @NgModule({

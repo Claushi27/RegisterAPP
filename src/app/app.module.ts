@@ -10,6 +10,7 @@ import { ResetPasswordPage } from './reset-password/reset-password.page';
 import { HomePage } from './home/home.page';
 import { HttpClientModule } from '@angular/common/http';
 import { WeatherService } from './services/weather.service';
+import { FormsModule } from '@angular/forms'; // Aquí importamos FormsModule
 
 // Importar Firebase y el módulo de autenticación
 import { AngularFireModule } from '@angular/fire/compat';
@@ -30,6 +31,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    FormsModule,
     RouterModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig), // Inicialización de Firebase
