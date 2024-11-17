@@ -22,9 +22,9 @@ export class HomePage implements OnInit {
     const storedUserName = localStorage.getItem('userName');
     this.userName = storedUserName ? storedUserName : 'Usuario';
     this.subjects = [
-      { title: 'Clase de Matemática', registered: null },
-      { title: 'Clase de Lenguaje', registered: null },
-      { title: 'Clase de Historia', registered: null }
+      { title: 'Matemáticas', registered: null },
+      { title: 'Lenguaje', registered: null },
+      { title: 'Historia', registered: null }
     ];
     this.getLocationAndWeather();
   }

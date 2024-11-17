@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>RegistrAPP</ion-title>
+  <ion-toolbar class="ion-padding">
+    <h1>RegistrAPP</h1>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/perfil']">
         <ion-icon name="person-circle-outline"></ion-icon>
@@ -15,11 +15,12 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h1>¡Bienvenido {{ userName }}!</h1>
+        <h1 class="ion-padding">¡Bienvenido {{ userName }}!</h1>
+        <ion-img class="ion-margin-top" src="assets/images/home.svg"></ion-img>
 
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Asignaturas Disponibles:</ion-card-title>
+            <ion-card-title>Mis Asignaturas:</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-list>
