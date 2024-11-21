@@ -52,7 +52,7 @@ export class HomePage implements OnInit {
     const result = await CapacitorBarcodeScanner.scanBarcode({
       hint: CapacitorBarcodeScannerTypeHint.ALL
     });
-    this.result = result.ScanResult; // Almacena el resultado del escaneo
+    this.result = result.ScanResult; 
     alert(`Código QR escaneado: ${this.result}`);
   }
 

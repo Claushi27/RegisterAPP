@@ -8,10 +8,10 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  username: string = '';  // Variable para el nombre de usuario
-  email: string = '';  // Variable para el correo electrónico
-  phone: string = '';  // Variable para el teléfono
-  address: string = '';  // Variable para la dirección
+  username: string = '';  
+  email: string = '';  
+  phone: string = '';  
+  address: string = '';  
   profilePicture: string = 'assets/img/default-avatar.png';  // Imagen predeterminada
   gameImages: string[] = [];  // Lista de imágenes de los juegos
   showImageOptionsModal: boolean = false; // Variable para mostrar el modal de opciones de imágenes
@@ -46,9 +46,9 @@ export class PerfilPage implements OnInit {
     }
 
     // Llamada al servicio para obtener imágenes del juego
-    this.gameService.getGames('gta 5').subscribe((response: any) => {
+    this.gameService.getGames('elden ring').subscribe((response: any) => {
       this.gameImages = response.results.map((game: any) => {
-        return game.background_image;  // Extraemos la URL de la imagen de fondo del juego
+        return game.background_image;  
       });
     });
   }
@@ -69,9 +69,9 @@ export class PerfilPage implements OnInit {
 
   // Método para cambiar la foto de perfil
   changeProfilePicture(image: string) {
-    this.profilePicture = image;  // Cambiar la foto de perfil con la imagen seleccionada
-    localStorage.setItem('profilePicture', image); // Guardar la imagen en localStorage
-    this.showImageOptionsModal = false; // Cerrar las opciones de imagen
+    this.profilePicture = image;  
+    localStorage.setItem('profilePicture', image); 
+    this.showImageOptionsModal = false; 
   }
 
   // Método para navegar al Home
@@ -81,18 +81,15 @@ export class PerfilPage implements OnInit {
 
   // Método para cerrar sesión
   logout() {
-    // Eliminar los datos de la sesión (puedes agregar más elementos si es necesario)
     localStorage.removeItem('userName');
     localStorage.removeItem('email');
-    // Redirigir al login
     this.router.navigate(['/login']);
   }
   navigateToResetPassword() {
     this.router.navigate(['/reset-password']);
   }
   
-  // Método para mostrar las opciones de imagen
   showImageOptions() {
-    this.showImageOptionsModal = true; // Mostrar el modal o la lista de imágenes
+    this.showImageOptionsModal = true; 
   }
 }
