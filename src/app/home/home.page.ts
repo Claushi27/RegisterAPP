@@ -1,4 +1,3 @@
-// home.page.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WeatherService } from '../services/weather.service';
@@ -12,9 +11,9 @@ import { CapacitorBarcodeScanner, CapacitorBarcodeScannerTypeHint } from '@capac
 })
 export class HomePage implements OnInit {
   userName: string = '';
-  subjects: { title: string, registered: Date | null }[] = [];
+  subjects: { title: string; code: string; registered: Date | null }[] = [];
   weatherData: any;
-  result: string = ''; // Variable para almacenar el resultado del escaneo
+  result: string = ''; // Resultado del escaneo
 
   constructor(private router: Router, private weatherService: WeatherService) {}
 
@@ -22,9 +21,9 @@ export class HomePage implements OnInit {
     const storedUserName = localStorage.getItem('userName');
     this.userName = storedUserName ? storedUserName : 'Usuario';
     this.subjects = [
-      { title: 'Clase de Matemática', registered: null },
-      { title: 'Clase de Lenguaje', registered: null },
-      { title: 'Clase de Historia', registered: null }
+      { title: 'Clase de Matemática', code: 'MAT2001', registered: null },
+      { title: 'Clase de Lenguaje', code: 'LENG2001', registered: null },
+      { title: 'Clase de Historia', code: 'HIS3005', registered: null },
     ];
     this.getLocationAndWeather();
   }
@@ -42,21 +41,47 @@ export class HomePage implements OnInit {
   }
 
   getWeather(lat: number, lon: number) {
-    this.weatherService.getWeather(lat, lon).subscribe(data => {
+    this.weatherService.getWeather(lat, lon).subscribe((data) => {
       this.weatherData = data;
     });
   }
 
-  // Método para escanear el código QR
+  // Escanear código QR
   async scan(): Promise<void> {
-    const result = await CapacitorBarcodeScanner.scanBarcode({
-      hint: CapacitorBarcodeScannerTypeHint.ALL
-    });
-    this.result = result.ScanResult; 
-    alert(`Código QR escaneado: ${this.result}`);
+    try {
+      const result = await CapacitorBarcodeScanner.scanBarcode({
+        hint: CapacitorBarcodeScannerTypeHint.ALL,
+      });
+
+      if (result.ScanResult) {
+        this.result = result.ScanResult; 
+        const [asignatura, seccion, sala, fecha] = this.result.split('|');
+
+        if (!asignatura || !seccion || !sala || !fecha) {
+          alert(
+            'El formato del QR es inválido. Asegúrate de que siga el formato: <ASIGNATURA>|<SECCION>|<SALA>|<FECHA>'
+          );
+          return;
+        }
+
+        const subject = this.subjects.find((s) => s.code === asignatura);
+
+        if (subject) {
+          subject.registered = new Date(); // Registrar asistencia
+          alert(`Asistencia registrada para: ${subject.title}`);
+        } else {
+          alert('El QR no corresponde a ninguna asignatura disponible.');
+        }
+      } else {
+        alert('No se pudo leer el QR. Inténtalo de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al escanear QR:', error);
+      alert('Hubo un problema al escanear el QR.');
+    }
   }
 
-  // Función para cerrar sesión
+  // Cerrar sesión
   handleLogout() {
     localStorage.removeItem('userName');
     this.router.navigate(['/login']);
