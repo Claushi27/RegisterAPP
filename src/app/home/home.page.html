@@ -1,6 +1,7 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>RegistrAPP</ion-title>
+  <ion-toolbar class="ion-padding morado">
+    <h1>RegistrAPP</h1>
+    <h3>          ¡Bienvenido {{ userName }}!</h3>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/perfil']">
         <ion-icon name="person-circle-outline"></ion-icon>
@@ -12,15 +13,15 @@
 </ion-header>
 
 <ion-content>
+  <ion-img class="ion-margin-top" src="assets/images/home3.svg"></ion-img>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h1>¡Bienvenido {{ userName }}!</h1>
 
         <!-- Lista de asignaturas -->
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Asignaturas Disponibles:</ion-card-title>
+            <ion-card-title>Mis Asignaturas:</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-list>
@@ -63,13 +64,13 @@
         </ion-card>
 
         <!-- Botón para escanear el código QR -->
-        <ion-button expand="full" (click)="scan()">Escanear Código QR</ion-button>
+        <ion-button class="morado" expand="full" (click)="scan()">Escanear Código QR</ion-button>
 
         <!-- Mostrar el resultado del escaneo -->
         <p *ngIf="result">Resultado del escaneo: {{ result }}</p>
 
-        <!-- Botón para cerrar sesión -->
-        <ion-button expand="full" (click)="handleLogout()">Cerrar sesión</ion-button>
+        <ion-button class="morado" expand="full" (click)="handleLogout()">Cerrar sesión</ion-button>
+
       </ion-col>
     </ion-row>
   </ion-grid>
