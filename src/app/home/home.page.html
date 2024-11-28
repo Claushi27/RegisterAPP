@@ -70,7 +70,10 @@
         <p *ngIf="result">Resultado del escaneo: {{ result }}</p>
 
         <ion-button class="morado" expand="full" (click)="handleLogout()">Cerrar sesión</ion-button>
-
+        <ion-button expand="block" (click)="viewHistory()">
+          Ver Historial de Asistencia
+        </ion-button>
+        
       </ion-col>
     </ion-row>
   </ion-grid>

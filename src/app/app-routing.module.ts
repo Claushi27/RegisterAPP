@@ -24,6 +24,11 @@ const routes: Routes = [
     canActivate: [AuthGuard] // Protege la ruta de perfil
   },
 
+  {
+    path: 'history',
+    loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
+  },
+
   // Ruta para el error 404
   { 
     path: '**', 
@@ -35,7 +40,7 @@ const routes: Routes = [
   {
     path: 'e404',
     loadChildren: () => import('./page/e404/e404.module').then(m => m.E404PageModule)
-  }
+  },
 
 ];
 

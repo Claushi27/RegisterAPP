@@ -48,37 +48,47 @@ export class HomePage implements OnInit {
 
   // Escanear código QR
   async scan(): Promise<void> {
-    try {
-      const result = await CapacitorBarcodeScanner.scanBarcode({
-        hint: CapacitorBarcodeScannerTypeHint.ALL,
-      });
+    const result = await CapacitorBarcodeScanner.scanBarcode({
+      hint: CapacitorBarcodeScannerTypeHint.ALL,
+    });
 
-      if (result.ScanResult) {
-        this.result = result.ScanResult; 
-        const [asignatura, seccion, sala, fecha] = this.result.split('|');
+    const scannedText = result.ScanResult;
 
-        if (!asignatura || !seccion || !sala || !fecha) {
-          alert(
-            'El formato del QR es inválido. Asegúrate de que siga el formato: <ASIGNATURA>|<SECCION>|<SALA>|<FECHA>'
-          );
-          return;
-        }
+    if (scannedText && scannedText.includes('|')) {
+      const [asignatura, seccion, sala, fecha] = scannedText.split('|');
 
-        const subject = this.subjects.find((s) => s.code === asignatura);
+      // Buscar la asignatura por su código
+      const subject = this.subjects.find((subject) => subject.code === asignatura);
+      if (subject) {
+        subject.registered = new Date();
 
-        if (subject) {
-          subject.registered = new Date(); // Registrar asistencia
-          alert(`Asistencia registrada para: ${subject.title}`);
-        } else {
-          alert('El QR no corresponde a ninguna asignatura disponible.');
-        }
+        // Crear un objeto para el historial
+        const attendanceRecord = {
+          asignatura: subject.title,
+          seccion,
+          sala,
+          fechaEscaneo: new Date().toISOString(),
+        };
+
+        // Guardar en el localStorage
+        const currentHistory = JSON.parse(localStorage.getItem('attendanceHistory') || '[]');
+        currentHistory.push(attendanceRecord);
+        localStorage.setItem('attendanceHistory', JSON.stringify(currentHistory));
+
+        alert(`Asistencia registrada para ${subject.title}`);
       } else {
-        alert('No se pudo leer el QR. Inténtalo de nuevo.');
+        alert('Asignatura no encontrada en la lista.');
       }
-    } catch (error) {
-      console.error('Error al escanear QR:', error);
-      alert('Hubo un problema al escanear el QR.');
+    } else {
+      alert('Formato de QR inválido.');
     }
+
+    this.result = scannedText;
+  }
+
+  // Navegar a la página de historial
+  viewHistory() {
+    this.router.navigate(['/history']);
   }
 
   // Cerrar sesión
